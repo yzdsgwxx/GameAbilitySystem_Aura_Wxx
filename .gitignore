@@ -1,0 +1,16 @@
+/.idea
+/.vs
+/Binaries
+/DerivedDataCache
+/Intermediate
+/Saved
+/.vsconfig
+/AuraSecond.sln
+/Plugins/GASAttachEditor/LICENSE
+/Plugins/GASAttachEditor/README.md
+/Plugins/GASAttachEditor/README.zh-Hans.md
+/Plugins/GASAttachEditor/Binaries
+/Plugins/GASAttachEditor/Intermediate
+/Plugins/GASAttachEditor/.gitignore
+/Content/Assets
+/Content/Test
