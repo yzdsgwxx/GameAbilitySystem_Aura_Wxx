@@ -1,4 +1,7 @@
 ﻿#include "AuraCharacterBase.h"
+
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AuraSecond/Game/AuraGameplayTag.h"
 #include "GAS/AuraAbilitySystemComponent.h"
 
 AAuraCharacterBase::AAuraCharacterBase()
@@ -34,6 +37,7 @@ void AAuraCharacterBase::GiveGEAndGA()
 		auto Spec = AuraASC->MakeOutgoingSpec(GE,1,Context);
 		AuraASC->ApplyGameplayEffectSpecToSelf(*Spec.Data.Get());
 	}
+	LevelUp(StartLevel);
 	AuraASC->OnGameplayEffectAppliedDelegateToSelf.AddUObject(this,&AAuraCharacterBase::OnAnyEffectAppliedToSelf);
 }
 
@@ -41,4 +45,14 @@ void AAuraCharacterBase::OnAnyEffectAppliedToSelf(UAbilitySystemComponent* Abili
 	const FGameplayEffectSpec& GameplayEffectSpec, FActiveGameplayEffectHandle ActiveGameplayEffectHandle)
 {
 	UE_LOG(LogTemp, Warning, TEXT("%s: %s"), *FString(__FUNCTION__),*FString::Printf(TEXT("GEApplied")));
+}
+
+void AAuraCharacterBase::LevelUp(int32 InLevel)
+{
+	if (!LevelUpGE) return;
+	FGameplayEffectContextHandle Context = AuraASC->MakeEffectContext();
+	auto SpecHandle = AuraASC->MakeOutgoingSpec(LevelUpGE, 1, Context);
+	auto Spec = SpecHandle.Data.Get();
+	Spec->SetSetByCallerMagnitude(AssignTag_Level,InLevel);
+	AuraASC->ApplyGameplayEffectSpecToSelf(*Spec);
 }

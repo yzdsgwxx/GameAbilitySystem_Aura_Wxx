@@ -17,6 +17,7 @@ void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<class FLifetimePropert
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet,MaxMana,COND_None,REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet,Level,COND_None,REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet,MaxLevel,COND_None,REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet,PhysicsAttack,COND_None,REPNOTIFY_Always);
 }
 
 void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
@@ -33,6 +34,21 @@ void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, 
 	if (Attribute == GetLevelAttribute())
 	{
 		NewValue = FMath::Clamp(NewValue,0,GetMaxLevel());
+	}
+}
+
+void UAuraAttributeSet::PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue)
+{
+	Super::PostAttributeChange(Attribute, OldValue, NewValue);
+	if (Attribute == GetMaxHealthAttribute())
+	{
+		float Ratio  = OldValue==0?1:GetHealth()/OldValue;
+		SetHealth(NewValue* Ratio);
+	}
+	if (Attribute == GetMaxManaAttribute())
+	{
+		float Ratio  = OldValue==0?1:GetMana()/OldValue;
+		SetMana(NewValue* Ratio);
 	}
 }
 
@@ -61,7 +77,7 @@ void UAuraAttributeSet::OnRep_Health(const FGameplayAttributeData& OldAttribute)
 
 void UAuraAttributeSet::OnRep_MaxHealth(const FGameplayAttributeData& OldAttribute)
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(ThisClass,Health,OldAttribute);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(ThisClass,MaxHealth,OldAttribute);
 }
 
 void UAuraAttributeSet::OnRep_Mana(const FGameplayAttributeData& OldAttribute)
@@ -71,7 +87,7 @@ void UAuraAttributeSet::OnRep_Mana(const FGameplayAttributeData& OldAttribute)
 
 void UAuraAttributeSet::OnRep_MaxMana(const FGameplayAttributeData& OldAttribute)
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(ThisClass,Mana,OldAttribute);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(ThisClass,MaxMana,OldAttribute);
 }
 
 void UAuraAttributeSet::OnRep_Level(const FGameplayAttributeData& OldAttribute)
@@ -82,4 +98,9 @@ void UAuraAttributeSet::OnRep_Level(const FGameplayAttributeData& OldAttribute)
 void UAuraAttributeSet::OnRep_MaxLevel(const FGameplayAttributeData& OldAttribute)
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(ThisClass,MaxLevel,OldAttribute);
+}
+
+void UAuraAttributeSet::OnRep_PhysicsAttack(const FGameplayAttributeData& OldAttribute)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(ThisClass,PhysicsAttack,OldAttribute);
 }

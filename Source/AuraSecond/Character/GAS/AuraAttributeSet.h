@@ -20,6 +20,7 @@ public:
 
 	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
+	virtual void PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue) override;
 	virtual void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;
 	
 	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_Health,Category="FirstAttribute")
@@ -57,4 +58,10 @@ public:
 	UFUNCTION()
 	void OnRep_MaxLevel(const FGameplayAttributeData& OldAttribute);
 	ATTRIBUTE_ACCESSORS(ThisClass,MaxLevel);
+
+	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_Level,Category="FirstAttribute")
+	FGameplayAttributeData PhysicsAttack;
+	UFUNCTION()
+	void OnRep_PhysicsAttack(const FGameplayAttributeData& OldAttribute);
+	ATTRIBUTE_ACCESSORS(ThisClass,PhysicsAttack);
 };

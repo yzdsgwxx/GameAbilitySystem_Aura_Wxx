@@ -26,6 +26,8 @@ public:
 	virtual UAuraAttributeSet* GetAuraAttributeSet()const;
 	void GiveGEAndGA();
 	void OnAnyEffectAppliedToSelf(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& GameplayEffectSpec, FActiveGameplayEffectHandle ActiveGameplayEffectHandle);
+	UFUNCTION(BlueprintCallable)
+	void LevelUp(int32 InLevel);
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon")
 	USkeletalMeshComponent* WeaponMesh;
@@ -39,4 +41,9 @@ protected:
 	TArray<TSubclassOf<UGameplayAbility>> Abilites;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="GAS")
 	TArray<TSubclassOf<UGameplayEffect>> Effects;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="GAS")
+	int32 StartLevel = 1;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="GAS")
+	TSubclassOf<UGameplayEffect> LevelUpGE;
 };
