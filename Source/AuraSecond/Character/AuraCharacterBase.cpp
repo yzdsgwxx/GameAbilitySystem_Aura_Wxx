@@ -23,11 +23,13 @@ void AAuraCharacterBase::GiveGEAndGA()
 {
 	for (TSubclassOf<UGameplayAbility> GA : Abilites)
 	{
+		if(!GA) return;
 		FGameplayAbilitySpec Spec(GA);
 		AuraASC->GiveAbility(Spec);
 	}
-	for (auto GE :Effects)
+	for (TSubclassOf<UGameplayEffect> GE :Effects)
 	{
+		if (!GE) return;
 		auto Context = AuraASC->MakeEffectContext();
 		auto Spec = AuraASC->MakeOutgoingSpec(GE,1,Context);
 		AuraASC->ApplyGameplayEffectSpecToSelf(*Spec.Data.Get());

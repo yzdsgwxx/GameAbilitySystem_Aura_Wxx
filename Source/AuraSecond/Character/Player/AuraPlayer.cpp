@@ -50,7 +50,7 @@ void AAuraPlayer::SetupActorInfo()
 		AuraASC = Cast<UAuraAbilitySystemComponent>(AuraPS->GetAbilitySystemComponent());
 		if (AuraASC)
 		{
-			AuraASC->InitAbilityActorInfo(GetController(),this);
+			AuraASC->InitAbilityActorInfo(GetPlayerState(),this);
 		}		
 	}
 }

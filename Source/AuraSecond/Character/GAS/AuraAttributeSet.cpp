@@ -23,7 +23,7 @@ void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, 
 	Super::PreAttributeChange(Attribute, NewValue);
 	if (Attribute == GetHealthAttribute())
 	{
-		NewValue = FMath::Clamp(NewValue,0,GetMaxHealth());		
+		// NewValue = FMath::Clamp(NewValue,0,GetMaxHealth());		
 	}
 	if (Attribute == GetManaAttribute())
 	{
@@ -41,7 +41,7 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 	FGameplayAttribute ExecutedAttribte = Data.EvaluatedData.Attribute;
 	if (ExecutedAttribte == GetHealthAttribute() || ExecutedAttribte == GetMaxHealthAttribute())
 	{
-		SetHealth(FMath::Clamp(GetHealth(),0,GetMaxHealth()));
+		// SetHealth(FMath::Clamp(GetHealth(),0,GetMaxHealth()));
 	}
 	if (ExecutedAttribte == GetManaAttribute() || ExecutedAttribte == GetMaxManaAttribute())
 	{

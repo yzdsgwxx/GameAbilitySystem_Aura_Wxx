@@ -29,11 +29,10 @@ public:
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon")
 	USkeletalMeshComponent* WeaponMesh;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="GAS")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="GAS")
 	UAuraAbilitySystemComponent* AuraASC;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="GAS")
+	UPROPERTY(EditAnywhere, Category="GAS")
 	UAuraAttributeSet* AuraAttributeSet;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="GAS")
