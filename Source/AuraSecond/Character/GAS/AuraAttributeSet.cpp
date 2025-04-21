@@ -5,6 +5,7 @@
 
 UAuraAttributeSet::UAuraAttributeSet()
 {
+	InitMaxLevel(3);
 }
 
 void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
@@ -23,7 +24,7 @@ void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, 
 	Super::PreAttributeChange(Attribute, NewValue);
 	if (Attribute == GetHealthAttribute())
 	{
-		// NewValue = FMath::Clamp(NewValue,0,GetMaxHealth());		
+		NewValue = FMath::Clamp(NewValue,0,GetMaxHealth());		
 	}
 	if (Attribute == GetManaAttribute())
 	{
@@ -41,7 +42,7 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 	FGameplayAttribute ExecutedAttribte = Data.EvaluatedData.Attribute;
 	if (ExecutedAttribte == GetHealthAttribute() || ExecutedAttribte == GetMaxHealthAttribute())
 	{
-		// SetHealth(FMath::Clamp(GetHealth(),0,GetMaxHealth()));
+		SetHealth(FMath::Clamp(GetHealth(),0,GetMaxHealth()));
 	}
 	if (ExecutedAttribte == GetManaAttribute() || ExecutedAttribte == GetMaxManaAttribute())
 	{
@@ -51,7 +52,6 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 	{
 		SetLevel(FMath::Clamp(GetLevel(),0,GetMaxLevel()));
 	}
-	//TODO 最大生命值发生改变时保持生命值百分比
 }
 
 void UAuraAttributeSet::OnRep_Health(const FGameplayAttributeData& OldAttribute)
